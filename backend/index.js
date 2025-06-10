@@ -41,12 +41,19 @@ app.use(cors({ origin: 'http://localhost:3000' }));
 app.use(express.json());
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
-mongoose.connect('mongodb://localhost:27017/auth_demo', { useNewUrlParser: true, useUnifiedTopology: true });
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'error connecting database'));
-db.once('open', function () {
-    console.log('Data connected successfully');
-});
+// mongodb+srv://satyam86300:XTqprngTQBuPNroj@cluster0.laki2n1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+// mongoose.connect('mongodb://localhost:27017/auth_demo', { useNewUrlParser: true, useUnifiedTopology: true });
+// const db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'error connecting database'));
+// db.once('open', function () {
+//     console.log('Data connected successfully');
+// });
+
+mongoose.connect('mongodb+srv://satyam86300:XTqprngTQBuPNroj@cluster0.laki2n1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+.then(data => console.log('DataBase connected successfully'))
+.catch(error => {
+    console.log('Problem in connecting Database')
+})
 
 app.use('/', router);
 
