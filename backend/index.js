@@ -37,7 +37,11 @@ const io = socketIo(server, {
 //   });
 
 // app.use(cors());
-app.use(cors({ origin: 'http://localhost:3000' }));
+// app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({
+    origin: ['http://localhost:3000', 'https://your-frontend.netlify.app'], // Add local and Netlify URLs
+    credentials: true // Allow cookies and headers
+}));
 app.use(express.json());
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
