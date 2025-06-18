@@ -24,7 +24,7 @@ const server = http.createServer(app);
 // const io = socketIo(server);
 const io = socketIo(server, {
     cors: {
-        origin: 'http://localhost:3000', // Allow connections from the frontend
+        origin: ['http://localhost:3000', 'https://your-netlify-site.netlify.app'], // Allow connections from the frontend
         methods: ['GET', 'POST'], // Allowed HTTP methods
         allowedHeaders: ['Content-Type'], // Allow specific headers
         credentials: true // Allow credentials (cookies, headers, etc.)
@@ -37,11 +37,7 @@ const io = socketIo(server, {
 //   });
 
 // app.use(cors());
-// app.use(cors({ origin: 'http://localhost:3000' }));
-app.use(cors({
-    origin: ['http://localhost:3000', 'https://your-frontend.netlify.app'], // Add local and Netlify URLs
-    credentials: true // Allow cookies and headers
-}));
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
