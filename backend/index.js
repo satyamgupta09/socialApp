@@ -24,12 +24,15 @@ const server = http.createServer(app);
 // const io = socketIo(server);
 const io = socketIo(server, {
     cors: {
-        origin: ['http://localhost:3000', 'https://your-netlify-site.netlify.app'], // Allow connections from the frontend
-        methods: ['GET', 'POST'], // Allowed HTTP methods
-        allowedHeaders: ['Content-Type'], // Allow specific headers
-        credentials: true // Allow credentials (cookies, headers, etc.)
-    }
+        origin: [
+            'http://localhost:3000', // Local frontend for development
+            'https://685310111865159b1a49a1f6--idyllic-kataifi-9b0f80.netlify.app' // Netlify deployed frontend
+        ],
+        methods: ['GET', 'POST'],
+        credentials: true, // Allow cookies and headers
+    },
 });
+
 // const io = new Server(server, {
 //     cors: {
 //       origin: '*',
@@ -37,7 +40,21 @@ const io = socketIo(server, {
 //   });
 
 // app.use(cors());
-app.use(cors({ origin: '*' }));
+const allowedOrigins = [
+    'http://localhost:3000', // Local frontend
+    'https://685310111865159b1a49a1f6--idyllic-kataifi-9b0f80.netlify.app' // Netlify deployed frontend
+];
+
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true, // Allow cookies and headers
+}));
 app.use(express.json());
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
